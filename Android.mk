@@ -3,7 +3,7 @@ sdm-libs := sdm/libs
 display-hals := include libdebug libqservice libqdutils $(sdm-libs)/utils $(sdm-libs)/core
 
 ifneq ($(TARGET_IS_HEADLESS), true)
-    display-hals += libcopybit liblight libmemtrack hdmi_cec \
+    display-hals += libcopybit libmemtrack hdmi_cec \
                     $(sdm-libs)/hwc2 gpu_tonemapper libdrmutils libdisplayconfig
 endif
 
