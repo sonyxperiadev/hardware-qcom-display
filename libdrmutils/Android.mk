@@ -4,9 +4,9 @@ include $(CLEAR_VARS)
 LOCAL_MODULE                  := libdrmutils
 LOCAL_VENDOR_MODULE           := true
 LOCAL_MODULE_TAGS             := optional
-LOCAL_C_INCLUDES              := external/libdrm \
+LOCAL_C_INCLUDES              := external/libdrm
 ifeq ($(TARGET_COMPILE_WITH_MSM_KERNEL),true)
-LOCAL_C_INCLUDES          += $(TARGET_OUT_INTERMEDIATES)/KERNEL_OBJ/usr/include
+LOCAL_C_INCLUDES              += $(TARGET_OUT_INTERMEDIATES)/KERNEL_OBJ/usr/include
 endif
 LOCAL_SHARED_LIBRARIES        := libdrm libdl
 LOCAL_CFLAGS                  := -DLOG_TAG=\"DRMUTILS\" -Wall -std=c++11 -Werror -fno-operator-names
