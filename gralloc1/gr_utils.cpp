@@ -28,6 +28,7 @@
  */
 
 #include <media/msm_media_info.h>
+#include <cutils/properties.h>
 #include <algorithm>
 
 #include "gr_utils.h"
@@ -500,6 +501,9 @@ bool IsUBwcSupported(int format) {
 
 bool IsUBwcEnabled(int format, gralloc1_producer_usage_t prod_usage,
                    gralloc1_consumer_usage_t cons_usage) {
+  // Property is used to check whether the video encoder supports UBWC
+  char property[PROPERTY_VALUE_MAX];
+
   // Allow UBWC, if client is using an explicitly defined UBWC pixel format.
   if (IsUBwcFormat(format)) {
     return true;
@@ -516,6 +520,12 @@ bool IsUBwcEnabled(int format, gralloc1_producer_usage_t prod_usage,
       if (AdrenoMemInfo::GetInstance()) {
         enable = AdrenoMemInfo::GetInstance()->IsUBWCSupportedByGPU(format);
       }
+    }
+
+    // Check if client is video encoder, and UBWC is disabled by a prop
+    if ((cons_usage & GRALLOC1_CONSUMER_USAGE_VIDEO_ENCODER) &&
+        (property_get("video.disable.ubwc", property, "0") > 0)) {
+      enable = atoi(property) == 0;
     }
 
     // Allow UBWC, only if CPU usage flags are not set
