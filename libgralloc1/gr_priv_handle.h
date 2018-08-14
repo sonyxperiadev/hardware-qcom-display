@@ -24,6 +24,7 @@
 #include <hardware/gralloc1.h>
 #include <hardware/gralloc.h>
 #include <cinttypes>
+#include <errno.h>
 
 #define GRALLOC1_FUNCTION_PERFORM 0x00001000
 
