@@ -173,7 +173,7 @@ DisplayError DisplayBase::BuildLayerStackStats(LayerStack *layer_stack) {
     }
   }
 
-  DLOGD_IF(kTagDisplay, "LayerStack layer_count: %d, app_layer_count: %d, gpu_target_index: %d, "
+  DLOGV_IF(kTagDisplay, "LayerStack layer_count: %d, app_layer_count: %d, gpu_target_index: %d, "
            "display: %d-%d", layers.size(), hw_layers_info.app_layer_count,
            hw_layers_info.gpu_target_index, display_id_, display_type_);
 
