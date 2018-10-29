@@ -258,11 +258,9 @@ void HWDeviceDRM::Registry::Register(HWLayers *hw_layers) {
     LayerBuffer *input_buffer = &layer.input_buffer;
     HWRotatorSession *hw_rotator_session = &hw_layers->config[i].hw_rotator_session;
     HWRotateInfo *hw_rotate_info = &hw_rotator_session->hw_rotate_info[0];
-    fbid_cache_limit_ = input_buffer->flags.video ? VIDEO_FBID_LIMIT : UI_FBID_LIMIT;
 
     if (hw_rotator_session->mode == kRotatorOffline && hw_rotate_info->valid) {
       input_buffer = &hw_rotator_session->output_buffer;
-      fbid_cache_limit_ = ROTATOR_FBID_LIMIT;
     }
 
     MapBufferToFbId(&layer, input_buffer);
@@ -302,20 +300,16 @@ void HWDeviceDRM::Registry::MapBufferToFbId(Layer* layer, LayerBuffer* buffer) {
   }
 
   uint64_t handle_id = buffer->handle_id;
-  if (!handle_id || disable_fbid_cache_) {
-    // In legacy path, clear fb_id map in each frame.
+  bool legacy_path = !handle_id || disable_fbid_cache_;
+
+  if (legacy_path || (layer->buffer_map->buffer_map.size() > fbid_cache_limit_)) {
+    // Clear fb_id map in each frame in legacy path or if the map size exceeds limit.
     layer->buffer_map->buffer_map.clear();
-  } else {
+  }
 
-    if (layer->buffer_map->buffer_map.find(handle_id) != layer->buffer_map->buffer_map.end()) {
-      // Found fb_id for given handle_id key
-      return;
-    }
-
-    if (layer->buffer_map->buffer_map.size() >= fbid_cache_limit_) {
-      // Clear fb_id map, if the size reaches cache limit.
-      layer->buffer_map->buffer_map.clear();
-    }
+  if (layer->buffer_map->buffer_map.find(handle_id) != layer->buffer_map->buffer_map.end()) {
+    // Found fb_id for given handle_id key
+    return;
   }
 
   uint32_t fb_id = 0;
@@ -331,19 +325,14 @@ void HWDeviceDRM::Registry::MapOutputBufferToFbId(LayerBuffer *output_buffer) {
   }
 
   uint64_t handle_id = output_buffer->handle_id;
-  if (!handle_id || disable_fbid_cache_) {
-    // In legacy path, clear output buffer map in each frame.
+
+  if (!handle_id || disable_fbid_cache_ || (output_buffer_map_.size() > fbid_cache_limit_)) {
+    // Clear output buffer map in each frame in legacy path or if the map size exceeds limit.
     output_buffer_map_.clear();
-  } else {
+  }
 
-    if (output_buffer_map_.find(handle_id) != output_buffer_map_.end()) {
-      return;
-    }
-
-    if (output_buffer_map_.size() >= UI_FBID_LIMIT) {
-      // Clear output buffer map, if the size reaches cache limit.
-      output_buffer_map_.clear();
-    }
+  if (output_buffer_map_.find(handle_id) != output_buffer_map_.end()) {
+    return;
   }
 
   uint32_t fb_id = 0;
