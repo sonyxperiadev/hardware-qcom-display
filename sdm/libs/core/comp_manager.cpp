@@ -85,7 +85,7 @@ DisplayError CompManager::RegisterDisplay(int32_t display_id,
                                           const HWPanelInfo &hw_panel_info,
                                           const HWMixerAttributes &mixer_attributes,
                                           const DisplayConfigVariableInfo &fb_config,
-                                          Handle *display_ctx, uint32_t *default_clk_hz) {
+                                          Handle *display_ctx) {
   SCOPE_LOCK(locker_);
 
   DisplayError error = kErrorNone;
@@ -122,18 +122,7 @@ DisplayError CompManager::RegisterDisplay(int32_t display_id,
     return error;
   }
 
-  error = resource_intf_->Perform(ResourceInterface::kCmdGetDefaultClk,
-                                  display_comp_ctx->display_resource_ctx, default_clk_hz);
-  if (error != kErrorNone) {
-    strategy->Deinit();
-    delete strategy;
-    resource_intf_->UnregisterDisplay(display_comp_ctx->display_resource_ctx);
-    delete display_comp_ctx;
-    display_comp_ctx = NULL;
-    return error;
-  }
-
-  registered_displays_[type] = 1;
+  registered_displays_[display_id] = 1;
   display_comp_ctx->is_primary_panel = hw_panel_info.is_primary_panel;
   display_comp_ctx->display_id = display_id;
   display_comp_ctx->display_type = type;
@@ -191,8 +180,7 @@ DisplayError CompManager::ReconfigureDisplay(Handle comp_handle,
                                              const HWDisplayAttributes &display_attributes,
                                              const HWPanelInfo &hw_panel_info,
                                              const HWMixerAttributes &mixer_attributes,
-                                             const DisplayConfigVariableInfo &fb_config,
-                                             uint32_t *default_clk_hz) {
+                                             const DisplayConfigVariableInfo &fb_config) {
   SCOPE_LOCK(locker_);
 
   DisplayError error = kErrorNone;
@@ -201,12 +189,6 @@ DisplayError CompManager::ReconfigureDisplay(Handle comp_handle,
 
   error = resource_intf_->ReconfigureDisplay(display_comp_ctx->display_resource_ctx,
                                              display_attributes, hw_panel_info, mixer_attributes);
-  if (error != kErrorNone) {
-    return error;
-  }
-
-  error = resource_intf_->Perform(ResourceInterface::kCmdGetDefaultClk,
-                                  display_comp_ctx->display_resource_ctx, default_clk_hz);
   if (error != kErrorNone) {
     return error;
   }
