@@ -18,7 +18,6 @@ cc_defaults {
 
 cc_library_headers {
     name: "display_headers",
-    vendor_available: true,
     export_include_dirs: [
         "include",
         "libcopybit",
