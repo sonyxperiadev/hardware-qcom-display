@@ -45,8 +45,14 @@ LOCAL_SRC_FILES               := hwc_session.cpp \
                                  cpuhint.cpp \
                                  hwc_tonemapper.cpp \
                                  display_null.cpp \
-                                 hwc_socket_handler.cpp \
-                                 hwc_buffer_allocator.cpp
+                                 hwc_socket_handler.cpp
+
+ifeq ($(TARGET_USES_GRALLOC1), true)
+LOCAL_SRC_FILES               += hwc_buffer_allocator1.cpp
+LOCAL_CFLAGS += -DUSE_GRALLOC1
+else
+LOCAL_SRC_FILES               += hwc_buffer_allocator.cpp
+endif
 
 ifeq ($(TARGET_HAS_WIDE_COLOR_DISPLAY), true)
     LOCAL_CFLAGS += -DFEATURE_WIDE_COLOR
