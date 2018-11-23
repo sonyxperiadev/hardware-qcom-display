@@ -161,6 +161,15 @@ int HWCSession::Init() {
 
   g_hwc_uevent_.Register(this);
 
+#ifdef USE_GRALLOC1
+  DisplayError grerr = buffer_allocator_.Init();
+  if (grerr != kErrorNone) {
+    ALOGE("%s::%s: Buffer allocaor initialization failed. Error = %d",
+          __CLASS__, __FUNCTION__, grerr);
+    return -EINVAL;
+  }
+#endif
+
   auto error = CoreInterface::CreateCore(&buffer_allocator_, &buffer_sync_handler_,
                                     &socket_handler_, &core_intf_);
   if (error != kErrorNone) {
@@ -204,6 +213,10 @@ int HWCSession::Deinit() {
 
   g_hwc_uevent_.Register(nullptr);
   CoreInterface::DestroyCore();
+
+#ifdef USE_GRALLOC1
+    buffer_allocator_.Deinit();
+#endif
 
   return 0;
 }
