@@ -19,8 +19,12 @@ LOCAL_EXPORT_C_INCLUDE_DIRS   := $(LOCAL_PATH) \
                                  $(display_top)/libqdutils \
                                  $(display_top)/libqservice \
                                  $(display_top)/gpu_tonemapper \
-                                 $(display_top)/sdm/include \
-                                 $(display_top)/gralloc \
-                                 $(display_top)/libgralloc1
+                                 $(display_top)/sdm/include
+
+ifeq ($(TARGET_USES_GRALLOC1),true)
+LOCAL_EXPORT_C_INCLUDE_DIRS   += $(display_top)/gralloc1
+else
+LOCAL_EXPORT_C_INCLUDE_DIRS   += $(display_top)/gralloc
+endif
 
 include $(BUILD_HEADER_LIBRARY)
