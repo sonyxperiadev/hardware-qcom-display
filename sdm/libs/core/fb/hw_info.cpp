@@ -562,10 +562,25 @@ DisplayError HWInfo::GetFirstDisplayInterfaceType(HWDisplayInterfaceInfo *hw_dis
 }
 
 DisplayError HWInfo::GetDisplaysStatus(HWDisplaysInfo *hw_displays_info) {
-  // TODO(user):
-  DLOGW("This operation is not supported on FB Driver.");
+  if (!hw_displays_info) {
+    DLOGE("No output parameter provided!");
+    return kErrorParameters;
+  }
+  hw_displays_info->clear();
 
-  return kErrorNotSupported;
+  HWDisplayInterfaceInfo hw_disp_info = {};
+  DisplayError ret = HWInfo::GetFirstDisplayInterfaceType(&hw_disp_info);
+  if (ret != kErrorNone) {
+    return ret;
+  }
+
+  HWDisplayInfo hw_info = {};
+  hw_info.display_id = 0;
+  hw_info.display_type = hw_disp_info.type;
+  hw_info.is_connected = hw_disp_info.is_connected;
+  hw_info.is_primary = hw_info.display_type == kPrimary;
+  (*hw_displays_info)[hw_info.display_id] = hw_info;
+  return kErrorNone;
 }
 
 DisplayError HWInfo::GetMaxDisplaysSupported(DisplayType type, int32_t *max_displays) {
