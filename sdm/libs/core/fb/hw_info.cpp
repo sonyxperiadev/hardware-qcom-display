@@ -158,6 +158,116 @@ void HWInfo::ParseFormats(char *tokens[], uint32_t token_count, HWSubBlockType s
   for (uint32_t i = 0; i < token_count; i++) {
     format_supported[i] = UINT8(atoi(tokens[i]));
   }
+
+  PopulateSupportedFormatMap(format_supported.get(), (token_count << 3), sub_blk_type, hw_resource);
+}
+
+void HWInfo::PopulateSupportedFormatMap(const std::bitset<8> *format_supported,
+                                        uint32_t format_count, HWSubBlockType sub_blk_type,
+                                        HWResourceInfo *hw_resource) {
+  vector <LayerBufferFormat> supported_sdm_formats;
+  for (uint32_t mdp_format = 0; mdp_format < format_count; mdp_format++) {
+    if (format_supported[mdp_format >> 3][mdp_format & 7]) {
+      LayerBufferFormat sdm_format = GetSDMFormat(INT(mdp_format));
+      if (sdm_format != kFormatInvalid) {
+        supported_sdm_formats.push_back(sdm_format);
+      }
+    }
+  }
+
+  hw_resource->supported_formats_map.erase(sub_blk_type);
+  hw_resource->supported_formats_map.insert(make_pair(sub_blk_type, supported_sdm_formats));
+}
+
+DisplayError HWInfo::GetFirstDisplayInterfaceType(HWDisplayInterfaceInfo *hw_disp_info) {
+  Sys::fstream fs("/sys/devices/virtual/graphics/fb0/msm_fb_type", fstream::in);
+  if (!fs.is_open()) {
+    return kErrorHardware;
+  }
+
+  string line;
+  if (!Sys::getline_(fs, line)) {
+    return kErrorHardware;
+  }
+
+  if (!strncmp(line.c_str(), "dtv panel", strlen("dtv panel")) ||
+      !strncmp(line.c_str(), "dp panel", strlen("dp panel"))) {
+    hw_disp_info->type = kPluggable;
+    DLOGI("First display is HDMI/pluggable");
+  } else {
+    hw_disp_info->type = kBuiltIn;
+    DLOGI("First display is internal display");
+  }
+
+  fs.close();
+  fs.open("/sys/devices/virtual/graphics/fb0/connected", fstream::in);
+  if (!fs.is_open()) {
+    // If fb0 is for a DSI/connected panel, then connected node will not exist.
+    hw_disp_info->is_connected = true;
+  } else {
+    if (!Sys::getline_(fs, line)) {
+      return kErrorHardware;
+    }
+
+    hw_disp_info->is_connected =  (!strncmp(line.c_str(), "1", strlen("1")));
+  }
+
+  return kErrorNone;
+}
+
+DisplayError HWInfo::GetDisplaysStatus(HWDisplaysInfo *hw_displays_info) {
+  if (!hw_displays_info) {
+    DLOGE("No output parameter provided!");
+    return kErrorParameters;
+  }
+  hw_displays_info->clear();
+
+  HWDisplayInterfaceInfo hw_disp_info = {};
+  DisplayError ret = HWInfo::GetFirstDisplayInterfaceType(&hw_disp_info);
+  if (ret != kErrorNone) {
+    return ret;
+  }
+
+  HWDisplayInfo hw_info = {};
+  hw_info.display_id = 0;
+  hw_info.display_type = hw_disp_info.type;
+  hw_info.is_connected = hw_disp_info.is_connected;
+  hw_info.is_primary = hw_info.display_type == kPrimary;
+  (*hw_displays_info)[hw_info.display_id] = hw_info;
+  return kErrorNone;
+}
+
+DisplayError HWInfo::GetMaxDisplaysSupported(DisplayType type, int32_t *max_displays) {
+  static DebugTag log_once = kTagNone;
+
+  if (!max_displays) {
+    DLOGE("No output parameter provided!");
+    return kErrorParameters;
+  }
+
+  switch (type) {
+    case kBuiltIn:
+    case kPluggable:
+    case kVirtual:
+      *max_displays = 1;
+      break;
+    case kDisplayTypeMax:
+      *max_displays = 3;
+      break;
+    default:
+      *max_displays = 0;
+      DLOGE("Unknown display type %d.", type);
+      return kErrorParameters;
+  }
+
+  DLOGI_IF(log_once, "Max 3 concurrent displays.");
+  DLOGI_IF(log_once, "Max 1 concurrent display of type %d (BuiltIn).", kBuiltIn);
+  DLOGI_IF(log_once, "Max 1 concurrent display of type %d (Pluggable).", kPluggable);
+  DLOGI_IF(log_once, "Max 1 concurrent display of type %d (Virtual).", kVirtual);
+
+  log_once = kTagDisplay;
+
+  return kErrorNone;
 }
 
 }  // namespace sdm
