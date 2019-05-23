@@ -318,16 +318,23 @@ void HWCSession::GetCapabilities(struct hwc2_device *device, uint32_t *outCount,
   }
 
   int value = 0;
+  bool skip_client_color_transform = true;
   bool disable_skip_validate = false;
   if (Debug::Get()->GetProperty(DISABLE_SKIP_VALIDATE_PROP, &value) == kErrorNone) {
     disable_skip_validate = (value == 1);
   }
-  uint32_t count = 1 + (disable_skip_validate ? 0 : 1);
+  if (Debug::Get()->GetProperty("persist.hwc2.skip_client_color_transform", &value) == kErrorNone) {
+    skip_client_color_transform = (value == 1);
+  }
+  uint32_t count = (skip_client_color_transform ? 1 : 0) + (disable_skip_validate ? 0 : 1);
 
   if (outCapabilities != nullptr && (*outCount >= count)) {
-    outCapabilities[0] = HWC2_CAPABILITY_SKIP_CLIENT_COLOR_TRANSFORM;
+    DLOGI("skip_client_color_transform %d", skip_client_color_transform);
+    if (skip_client_color_transform) {
+	    outCapabilities[0] = HWC2_CAPABILITY_SKIP_CLIENT_COLOR_TRANSFORM;
+    }
     if (!disable_skip_validate) {
-      outCapabilities[1] = HWC2_CAPABILITY_SKIP_VALIDATE;
+      outCapabilities[count - 1] = HWC2_CAPABILITY_SKIP_VALIDATE;
     }
   }
   *outCount = count;
