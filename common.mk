@@ -9,6 +9,7 @@ display_config_version := $(shell \
 #Common C flags
 common_flags := -Wno-missing-field-initializers
 common_flags += -Wconversion -Wall -Werror -std=c++14
+common_flags += -fPIC
 
 ifeq ($(TARGET_USES_GRALLOC1), true)
 common_flags += -DUSE_GRALLOC1
