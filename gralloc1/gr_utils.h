@@ -42,7 +42,7 @@
 #define INT(exp) static_cast<int>(exp)
 #define UINT(exp) static_cast<unsigned int>(exp)
 
-namespace gralloc1 {
+namespace gralloc {
 
 struct BufferInfo {
   BufferInfo(int w, int h, int f, gralloc1_producer_usage_t prod = GRALLOC1_PRODUCER_USAGE_NONE,
@@ -69,6 +69,7 @@ bool CpuCanWrite(gralloc1_producer_usage_t prod_usage);
 unsigned int GetSize(const BufferInfo &d, unsigned int alignedw, unsigned int alignedh);
 void GetBufferSizeAndDimensions(const BufferInfo &d, unsigned int *size,
                                 unsigned int *alignedw, unsigned int *alignedh);
+void GetCustomDimensions(private_handle_t *hnd, int *stride, int *height);
 void GetAlignedWidthAndHeight(const BufferInfo &d, unsigned int *aligned_w,
                               unsigned int *aligned_h);
 int GetYUVPlaneInfo(const private_handle_t *hnd, struct android_ycbcr *ycbcr);
@@ -91,6 +92,6 @@ unsigned int GetUBwcSize(int width, int height, int format, unsigned int aligned
                          unsigned int alignedh);
 int GetBufferLayout(private_handle_t *hnd, uint32_t stride[4],
                     uint32_t offset[4], uint32_t *num_planes);
-}  // namespace gralloc1
+}  // namespace gralloc
 
 #endif  // __GR_UTILS_H__

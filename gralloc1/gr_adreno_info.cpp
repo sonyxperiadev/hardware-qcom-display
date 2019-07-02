@@ -39,7 +39,7 @@
 using std::lock_guard;
 using std::mutex;
 
-namespace gralloc1 {
+namespace gralloc {
 
 AdrenoMemInfo *AdrenoMemInfo::s_instance = nullptr;
 
@@ -211,4 +211,4 @@ ADRENOPIXELFORMAT AdrenoMemInfo::GetGpuPixelFormat(int hal_format) {
   return ADRENO_PIXELFORMAT_UNKNOWN;
 }
 
-}  // namespace gralloc1
+}  // namespace gralloc
