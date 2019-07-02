@@ -40,7 +40,7 @@ struct private_module_t {
 
 #define GRALLOC_IMPL(exp) reinterpret_cast<GrallocImpl const *>(exp)
 
-namespace gralloc1 {
+namespace gralloc {
 
 class GrallocImpl : public gralloc1_device_t {
  public:
@@ -128,6 +128,6 @@ class GrallocImpl : public gralloc1_device_t {
   bool initalized_ = false;
 };
 
-}  // namespace gralloc1
+}  // namespace gralloc
 
 #endif  // __GR_DEVICE_IMPL_H__

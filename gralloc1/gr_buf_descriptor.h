@@ -33,7 +33,7 @@
 #include <hardware/gralloc1.h>
 #include <atomic>
 
-namespace gralloc1 {
+namespace gralloc {
 class BufferDescriptor {
  public:
   BufferDescriptor() : id_(next_id_++) {}
@@ -92,5 +92,5 @@ class BufferDescriptor {
   const gralloc1_buffer_descriptor_t id_;
   static std::atomic<gralloc1_buffer_descriptor_t> next_id_;
 };
-};  // namespace gralloc1
+};  // namespace gralloc
 #endif  // __GR_BUF_DESCRIPTOR_H__

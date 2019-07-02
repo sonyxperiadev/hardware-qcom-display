@@ -30,7 +30,7 @@
 #include "gr_allocator.h"
 #include "gr_buf_descriptor.h"
 
-namespace gralloc1 {
+namespace gralloc {
 
 class BufferManager {
  public:
@@ -130,6 +130,6 @@ class BufferManager {
   std::atomic<uint64_t> next_id_;
 };
 
-}  // namespace gralloc1
+}  // namespace gralloc
 
 #endif  // __GR_BUF_MGR_H__

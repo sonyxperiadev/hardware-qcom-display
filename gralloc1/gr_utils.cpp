@@ -40,7 +40,7 @@
 #define COLOR_FMT_P010_UBWC 9
 #endif
 
-namespace gralloc1 {
+namespace gralloc {
 
 bool IsUncompressedRGBFormat(int format) {
   switch (format) {
@@ -638,7 +638,7 @@ int GetRgbDataAddress(private_handle_t *hnd, void **rgb_data) {
   int err = 0;
 
   // This api is for RGB* formats
-  if (!gralloc1::IsUncompressedRGBFormat(hnd->format)) {
+  if (!gralloc::IsUncompressedRGBFormat(hnd->format)) {
     return -EINVAL;
   }
 
@@ -666,6 +666,28 @@ int GetRgbDataAddress(private_handle_t *hnd, void **rgb_data) {
   *rgb_data = reinterpret_cast<void *>(hnd->base + meta_size);
 
   return err;
+}
+
+void GetCustomDimensions(private_handle_t *hnd, int *stride, int *height) {
+  BufferDim_t buffer_dim;
+  int interlaced = 0;
+
+  *stride = hnd->width;
+  *height = hnd->height;
+  if (getMetaData(hnd, GET_BUFFER_GEOMETRY, &buffer_dim) == 0) {
+    *stride = buffer_dim.sliceWidth;
+    *height = buffer_dim.sliceHeight;
+  } else if (getMetaData(hnd, GET_PP_PARAM_INTERLACED, &interlaced) == 0) {
+    if (interlaced && IsUBwcFormat(hnd->format)) {
+      unsigned int alignedw = 0, alignedh = 0;
+      // Get re-aligned height for single ubwc interlaced field and
+      // multiply by 2 to get frame height.
+      BufferInfo info(hnd->width, ((hnd->height + 1) >> 1), hnd->format);
+      GetAlignedWidthAndHeight(info, &alignedw, &alignedh);
+      *stride = static_cast<int>(alignedw);
+      *height = static_cast<int>(alignedh * 2);
+    }
+  }
 }
 
 void GetAlignedWidthAndHeight(const BufferInfo &info, unsigned int *alignedw,
@@ -851,4 +873,4 @@ int GetBufferLayout(private_handle_t *hnd, uint32_t stride[4],
   return 0;
 }
 
-}  // namespace gralloc1
+}  // namespace gralloc
