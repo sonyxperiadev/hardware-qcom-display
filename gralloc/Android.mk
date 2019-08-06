@@ -87,7 +87,8 @@ LOCAL_SHARED_LIBRARIES        := $(common_libs) \
                                   vendor.qti.hardware.display.mapper@2.0 \
                                   vendor.qti.hardware.display.mapperextensions@1.0 \
                                   android.hardware.graphics.mapper@2.0 \
-                                  android.hardware.graphics.mapper@2.1
+                                  android.hardware.graphics.mapper@2.1 \
+                                  vendor.qti.hardware.display.mapperextensions@1.1
 LOCAL_CFLAGS                  := $(common_flags) -DLOG_TAG=\"qdgralloc\" -Wno-sign-conversion
 ifeq ($(qti_mapper1_1_version), QTI_MAPPER_1_1)
 LOCAL_SHARED_LIBRARIES        += vendor.qti.hardware.display.mapper@1.1
