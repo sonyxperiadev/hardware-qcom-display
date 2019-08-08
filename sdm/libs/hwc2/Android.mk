@@ -62,5 +62,7 @@ LOCAL_SRC_FILES               := hwc_session.cpp \
                                  hwc_socket_handler.cpp \
                                  hwc_buffer_allocator.cpp
 
+LOCAL_VINTF_FRAGMENTS         := vendor.qti.hardware.display.composer-service.xml
+
 include $(BUILD_SHARED_LIBRARY)
 endif
