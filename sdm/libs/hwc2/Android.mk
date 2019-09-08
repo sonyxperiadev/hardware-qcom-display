@@ -12,6 +12,7 @@ LOCAL_C_INCLUDES              := $(common_includes)
 LOCAL_HEADER_LIBRARIES        := display_headers
 
 LOCAL_CFLAGS                  := -Wno-missing-field-initializers -Wno-unused-parameter \
+                                 -Wno-error=implicit-fallthrough \
                                  -std=c++11 -fcolor-diagnostics\
                                  -DLOG_TAG=\"SDM\" $(common_flags)
 LOCAL_CLANG                   := true
