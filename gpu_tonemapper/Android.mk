@@ -12,12 +12,16 @@ LOCAL_MODULE              := libgpu_tonemapper
 LOCAL_VENDOR_MODULE       := true
 LOCAL_MODULE_TAGS         := optional
 LOCAL_HEADER_LIBRARIES    := display_headers
+
 ifeq ($(TARGET_USES_GRALLOC1), true)
 LOCAL_HEADER_LIBRARIES += display_intf_headers_gralloc1
 else
 LOCAL_HEADER_LIBRARIES += display_intf_headers_gralloc
 endif
+
+ifeq ($(TARGET_COMPILE_WITH_MSM_KERNEL),true)
 LOCAL_C_INCLUDES          += $(TARGET_OUT_INTERMEDIATES)/KERNEL_OBJ/usr/include
+endif
 LOCAL_SHARED_LIBRARIES    := libEGL libGLESv2 libGLESv3 libui libutils liblog
 LOCAL_ADDITIONAL_DEPENDENCIES := $(common_deps) $(kernel_deps)
 
