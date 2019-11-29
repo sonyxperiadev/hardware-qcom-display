@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018, The Linux Foundation. All rights reserved.
+ * Copyright (c) 2018-2019 The Linux Foundation. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are
@@ -32,7 +32,7 @@
 
 #include <hidl/MQDescriptor.h>
 #include <hidl/Status.h>
-#include <android/hardware/graphics/allocator/2.0/IAllocator.h>
+#include <vendor/qti/hardware/display/allocator/3.0/IQtiAllocator.h>
 
 #include "gr_buf_mgr.h"
 
@@ -41,23 +41,24 @@ namespace qti {
 namespace hardware {
 namespace display {
 namespace allocator {
-namespace V1_0 {
+namespace V3_0 {
 namespace implementation {
 
-using ::android::hardware::Return;
-using ::android::hardware::Void;
-using ::android::hardware::graphics::allocator::V2_0::IAllocator;
-using ::android::hardware::graphics::mapper::V2_0::Error;
+using ::android::sp;
 using ::android::hardware::hidl_array;
 using ::android::hardware::hidl_memory;
 using ::android::hardware::hidl_string;
 using ::android::hardware::hidl_vec;
+using ::android::hardware::Return;
+using ::android::hardware::Void;
+using ::android::hardware::graphics::allocator::V3_0::IAllocator;
+using ::android::hardware::graphics::mapper::V3_0::Error;
 using ::android::hidl::base::V1_0::DebugInfo;
 using ::android::hidl::base::V1_0::IBase;
-using ::android::sp;
 using gralloc::BufferManager;
+using ::vendor::qti::hardware::display::allocator::V3_0::IQtiAllocator;
 
-class QtiAllocator : public IAllocator {
+class QtiAllocator : public IQtiAllocator {
  public:
   QtiAllocator();
   // Methods from ::android::hardware::graphics::allocator::V2_0::IAllocator follow.
@@ -70,10 +71,10 @@ class QtiAllocator : public IAllocator {
   BufferManager *buf_mgr_ = nullptr;
 };
 
-extern "C" IAllocator *HIDL_FETCH_IAllocator(const char *name);
+extern "C" IQtiAllocator *HIDL_FETCH_IQtiAllocator(const char *name);
 
 }  // namespace implementation
-}  // namespace V1_0
+}  // namespace V3_0
 }  // namespace allocator
 }  // namespace display
 }  // namespace hardware

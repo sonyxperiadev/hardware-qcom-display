@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018, The Linux Foundation. All rights reserved.
+ * Copyright (c) 2018-2019 The Linux Foundation. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are
@@ -40,7 +40,7 @@ namespace qti {
 namespace hardware {
 namespace display {
 namespace allocator {
-namespace V1_0 {
+namespace V3_0 {
 namespace implementation {
 
 using android::hardware::hidl_handle;
@@ -100,12 +100,12 @@ Return<void> QtiAllocator::allocate(const hidl_vec<uint32_t> &descriptor, uint32
 
 // Methods from ::android::hidl::base::V1_0::IBase follow.
 
-IAllocator *HIDL_FETCH_IAllocator(const char * /* name */) {
+IQtiAllocator *HIDL_FETCH_IQtiAllocator(const char * /* name */) {
   return new QtiAllocator();
 }
 
 }  // namespace implementation
-}  // namespace V1_0
+}  // namespace V3_0
 }  // namespace allocator
 }  // namespace display
 }  // namespace hardware

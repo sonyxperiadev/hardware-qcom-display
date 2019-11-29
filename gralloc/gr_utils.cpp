@@ -235,6 +235,32 @@ bool IsGPUFlagSupported(uint64_t usage) {
   return ret;
 }
 
+int GetBpp(int format) {
+  if (IsUncompressedRGBFormat(format)) {
+    return GetBppForUncompressedRGB(format);
+  }
+  switch (format) {
+    case HAL_PIXEL_FORMAT_COMPRESSED_RGBA_ASTC_4x4_KHR:
+    case HAL_PIXEL_FORMAT_COMPRESSED_SRGB8_ALPHA8_ASTC_4x4_KHR:
+    case HAL_PIXEL_FORMAT_RAW8:
+    case HAL_PIXEL_FORMAT_Y8:
+      return 1;
+    case HAL_PIXEL_FORMAT_RAW16:
+    case HAL_PIXEL_FORMAT_Y16:
+    case HAL_PIXEL_FORMAT_YCbCr_422_SP:
+    case HAL_PIXEL_FORMAT_YCrCb_422_SP:
+    case HAL_PIXEL_FORMAT_YCbCr_422_I:
+    case HAL_PIXEL_FORMAT_YCrCb_422_I:
+    case HAL_PIXEL_FORMAT_CbYCrY_422_I:
+      return 2;
+    case HAL_PIXEL_FORMAT_YCbCr_420_P010_VENUS:
+    case HAL_PIXEL_FORMAT_YCbCr_420_P010:
+      return 3;
+    default:
+      return -1;
+  }
+}
+
 // Returns the final buffer size meant to be allocated with ion
 unsigned int GetSize(const BufferInfo &info, unsigned int alignedw, unsigned int alignedh) {
   unsigned int size = 0;
@@ -879,7 +905,13 @@ void GetAlignedWidthAndHeight(const BufferInfo &info, unsigned int *alignedw,
       aligned_w = ALIGN(width * 12 / 8, 16);
       break;
     case HAL_PIXEL_FORMAT_RAW10:
-      aligned_w = ALIGN(width * 10 / 8, 16);
+      {
+        const unsigned int gpu_alignment =
+            AdrenoMemInfo::GetInstance()->GetGpuPixelAlignment();
+        // gpu_alignment can return 1. Make sure it's at least 64.
+        const unsigned int raw10_alignment = std::max(gpu_alignment, 64u);
+        aligned_w = ALIGN(width * 10 / 8, raw10_alignment);
+      }
       break;
     case HAL_PIXEL_FORMAT_RAW8:
       aligned_w = ALIGN(width, 16);
