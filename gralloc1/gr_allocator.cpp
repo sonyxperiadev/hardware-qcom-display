@@ -49,10 +49,6 @@
 #define ION_FLAG_CP_CAMERA_PREVIEW 0
 #endif
 
-#ifndef ION_SECURE
-#define ION_SECURE ION_FLAG_SECURE
-#endif
-
 #ifdef MASTER_SIDE_CP
 #define CP_HEAP_ID ION_SECURE_HEAP_ID
 #define SD_HEAP_ID ION_SECURE_DISPLAY_HEAP_ID
@@ -76,7 +72,7 @@
 using std::vector;
 using std::shared_ptr;
 
-namespace gralloc {
+namespace gralloc1 {
 
 static BufferInfo GetBufferInfo(const BufferDescriptor &descriptor) {
   return BufferInfo(descriptor.GetWidth(), descriptor.GetHeight(), descriptor.GetFormat(),
@@ -145,10 +141,9 @@ int Allocator::FreeBuffer(void *base, unsigned int size, unsigned int offset, in
   return -EINVAL;
 }
 
-int Allocator::CleanBuffer(void *base, unsigned int size, unsigned int offset, int handle, int op,
-                           int fd) {
+int Allocator::CleanBuffer(void *base, unsigned int size, unsigned int offset, int handle, int op) {
   if (ion_allocator_) {
-    return ion_allocator_->CleanBuffer(base, size, offset, handle, op, fd);
+    return ion_allocator_->CleanBuffer(base, size, offset, handle, op);
   }
 
   return -EINVAL;
@@ -318,4 +313,4 @@ void Allocator::GetIonHeapInfo(gralloc1_producer_usage_t prod_usage,
 
   return;
 }
-}  // namespace gralloc
+}  // namespace gralloc1

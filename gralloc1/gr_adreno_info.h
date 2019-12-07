@@ -32,7 +32,7 @@
 
 #include <media/msm_media_info.h>
 
-namespace gralloc {
+namespace gralloc1 {
 
 // Adreno Pixel Formats
 typedef enum {
@@ -143,6 +143,6 @@ class AdrenoMemInfo {
   static AdrenoMemInfo *s_instance;
 };
 
-}  // namespace gralloc
+}  // namespace gralloc1
 
 #endif  // __GR_ADRENO_INFO_H__

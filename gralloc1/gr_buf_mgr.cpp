@@ -31,7 +31,7 @@
 #include "gr_buf_mgr.h"
 #include "qdMetaData.h"
 
-namespace gralloc {
+namespace gralloc1 {
 std::atomic<gralloc1_buffer_descriptor_t> BufferDescriptor::next_id_(1);
 
 static BufferInfo GetBufferInfo(const BufferDescriptor &descriptor) {
@@ -331,7 +331,7 @@ gralloc1_error_t BufferManager::LockBuffer(const private_handle_t *hnd,
     if ((cons_usage & (GRALLOC1_CONSUMER_USAGE_CPU_READ | GRALLOC1_CONSUMER_USAGE_CPU_READ_OFTEN))
        && (hnd->flags & private_handle_t::PRIV_FLAGS_NON_CPU_WRITER)) {
       if (allocator_->CleanBuffer(reinterpret_cast<void *>(hnd->base), hnd->size, hnd->offset,
-                                  buf->ion_handle_main, CACHE_INVALIDATE, hnd->fd)) {
+                                  buf->ion_handle_main, CACHE_INVALIDATE)) {
 
          return GRALLOC1_ERROR_BAD_HANDLE;
       }
@@ -359,7 +359,7 @@ gralloc1_error_t BufferManager::UnlockBuffer(const private_handle_t *handle) {
 
   if (hnd->flags & private_handle_t::PRIV_FLAGS_NEEDS_FLUSH) {
     if (allocator_->CleanBuffer(reinterpret_cast<void *>(hnd->base), hnd->size, hnd->offset,
-                                buf->ion_handle_main, CACHE_CLEAN, hnd->fd) != 0) {
+                                buf->ion_handle_main, CACHE_CLEAN) != 0) {
       status = GRALLOC1_ERROR_BAD_HANDLE;
     }
     hnd->flags &= ~private_handle_t::PRIV_FLAGS_NEEDS_FLUSH;
@@ -927,4 +927,4 @@ gralloc1_error_t BufferManager::Dump(std::ostringstream *os) {
   }
   return GRALLOC1_ERROR_NONE;
 }
-}  //  namespace gralloc
+}  //  namespace gralloc1

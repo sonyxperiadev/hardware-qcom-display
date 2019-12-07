@@ -63,7 +63,7 @@ struct gralloc_module_t HAL_MODULE_INFO_SYM = {
 int gralloc_device_open(const struct hw_module_t *module, const char *name, hw_device_t **device) {
   int status = -EINVAL;
   if (!strcmp(name, GRALLOC_HARDWARE_MODULE_ID)) {
-    gralloc::GrallocImpl * /*gralloc1_device_t*/ dev = gralloc::GrallocImpl::GetInstance(module);
+    gralloc1::GrallocImpl * /*gralloc1_device_t*/ dev = gralloc1::GrallocImpl::GetInstance(module);
     *device = reinterpret_cast<hw_device_t *>(dev);
     if (dev) {
       status = 0;
@@ -74,7 +74,7 @@ int gralloc_device_open(const struct hw_module_t *module, const char *name, hw_d
   return status;
 }
 
-namespace gralloc {
+namespace gralloc1 {
 
 GrallocImpl::GrallocImpl(const hw_module_t *module) {
   common.tag = HARDWARE_DEVICE_TAG;
@@ -527,4 +527,4 @@ gralloc1_error_t GrallocImpl::Gralloc1Perform(gralloc1_device_t *device, int ope
   return err;
 }
 
-}  // namespace gralloc
+}  // namespace gralloc1
