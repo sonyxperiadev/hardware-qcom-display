@@ -5,30 +5,6 @@ cc_library_shared {
     header_libs: [
         "libhardware_headers",
         "libutils_headers",
-        "display_intf_headers_gralloc",
-    ],
-    shared_libs: [
-        "libbinder",
-        "libqservice",
-    ],
-    cflags: [
-        "-DLOG_TAG=\"qdutils\"",
-        "-Wno-sign-conversion",
-    ],
-    srcs: [
-        "qd_utils.cpp",
-        "display_config.cpp",
-    ],
-}
-
-cc_library_shared {
-    name: "libqdutils.legacy",
-    vendor: true,
-    defaults: ["display_defaults"],
-    header_libs: [
-        "libhardware_headers",
-        "libutils_headers",
-        "display_intf_headers_gralloc1",
     ],
     shared_libs: [
         "libbinder",
