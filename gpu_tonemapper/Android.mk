@@ -12,9 +12,11 @@ LOCAL_MODULE              := libgpu_tonemapper
 LOCAL_VENDOR_MODULE       := true
 LOCAL_MODULE_TAGS         := optional
 LOCAL_HEADER_LIBRARIES    := display_headers
+ifeq ($(TARGET_COMPILE_WITH_MSM_KERNEL),true)
 LOCAL_C_INCLUDES          += $(TARGET_OUT_INTERMEDIATES)/KERNEL_OBJ/usr/include
-LOCAL_SHARED_LIBRARIES    := libEGL libGLESv2 libGLESv3 libui libutils liblog
 LOCAL_ADDITIONAL_DEPENDENCIES := $(TARGET_OUT_INTERMEDIATES)/KERNEL_OBJ/usr
+endif
+LOCAL_SHARED_LIBRARIES    := libEGL libGLESv2 libGLESv3 libui libutils liblog
 
 LOCAL_CFLAGS              := $(version_flag) -Wno-missing-field-initializers -Wall \
                              -Wno-unused-parameter -std=c++11 -DLOG_TAG=\"GPU_TONEMAPPER\"
