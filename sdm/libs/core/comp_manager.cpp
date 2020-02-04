@@ -159,7 +159,6 @@ DisplayError CompManager::RegisterDisplay(int32_t display_id, DisplayType type,
   DLOGV_IF(kTagCompManager, "Registered displays [%s], display %d-%d",
            StringDisplayList(registered_displays_).c_str(), display_comp_ctx->display_id,
            display_comp_ctx->display_type);
-
   return kErrorNone;
 }
 
