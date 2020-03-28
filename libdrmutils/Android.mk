@@ -7,7 +7,7 @@ LOCAL_MODULE_TAGS             := optional
 LOCAL_C_INCLUDES              := external/libdrm
 LOCAL_HEADER_LIBRARIES        := display_headers
 LOCAL_SHARED_LIBRARIES        := libdrm libdl libdisplaydebug
-LOCAL_CFLAGS                  := -DLOG_TAG=\"DRMUTILS\" -Wall -std=c++11 -Werror -fno-operator-names
+LOCAL_CFLAGS                  := -DLOG_TAG=\"DRMUTILS\" -Wall -Werror -fno-operator-names
 ifeq ($(TARGET_COMPILE_WITH_MSM_KERNEL),true)
 LOCAL_C_INCLUDES          += $(TARGET_OUT_INTERMEDIATES)/KERNEL_OBJ/usr/include
 LOCAL_ADDITIONAL_DEPENDENCIES := $(TARGET_OUT_INTERMEDIATES)/KERNEL_OBJ/usr
