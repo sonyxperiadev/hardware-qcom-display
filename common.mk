@@ -57,7 +57,7 @@ ifeq ($(LLVM_SA), true)
 endif
 
 #Common libraries external to display HAL
-common_libs := liblog libutils libcutils libhardware
+common_libs := liblog libutils libcutils
 common_deps  :=
 kernel_includes :=
 

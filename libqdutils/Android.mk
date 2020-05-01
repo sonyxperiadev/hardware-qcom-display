@@ -9,7 +9,6 @@ LOCAL_MODULE_TAGS             := optional
 LOCAL_SHARED_LIBRARIES        := $(common_libs) libbinder libqservice
 LOCAL_C_INCLUDES              := $(common_includes) $(kernel_includes)
 LOCAL_HEADER_LIBRARIES        := display_headers
-LOCAL_HEADER_LIBRARIES        += libhardware_headers
 LOCAL_HEADER_LIBRARIES        += libutils_headers
 
 LOCAL_EXPORT_C_INCLUDE_DIRS := \
@@ -29,7 +28,6 @@ LOCAL_MODULE_TAGS               := optional
 LOCAL_SHARED_LIBRARIES          := liblog libcutils
 LOCAL_C_INCLUDES                := $(common_includes)
 LOCAL_HEADER_LIBRARIES          := display_headers
-LOCAL_HEADER_LIBRARIES          += libhardware_headers
 LOCAL_HEADER_LIBRARIES          += libutils_headers
 LOCAL_SRC_FILES                 := qdMetaData.cpp qd_utils.cpp
 LOCAL_CFLAGS                    := $(common_flags) -Wno-sign-conversion
