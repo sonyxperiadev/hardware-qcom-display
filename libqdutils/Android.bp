@@ -3,7 +3,6 @@ cc_library_shared {
     vendor: true,
     defaults: ["display_defaults"],
     header_libs: [
-        "libhardware_headers",
         "libutils_headers",
     ],
     shared_libs: [
