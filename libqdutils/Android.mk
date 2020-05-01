@@ -2,12 +2,6 @@ LOCAL_PATH := $(call my-dir)
 include $(LOCAL_PATH)/../common.mk
 
 include $(CLEAR_VARS)
-LOCAL_VENDOR_MODULE           := true
-LOCAL_COPY_HEADERS_TO         := $(common_header_export_path)
-LOCAL_COPY_HEADERS            := qd_utils.h
-include $(BUILD_COPY_HEADERS)
-
-include $(CLEAR_VARS)
 
 LOCAL_MODULE                  := libqdutils
 LOCAL_VENDOR_MODULE           := true
@@ -17,35 +11,21 @@ LOCAL_C_INCLUDES              := $(common_includes) $(kernel_includes)
 LOCAL_HEADER_LIBRARIES        := display_headers
 LOCAL_HEADER_LIBRARIES        += libhardware_headers
 LOCAL_HEADER_LIBRARIES        += libutils_headers
+
+LOCAL_EXPORT_C_INCLUDE_DIRS := \
+    $(LOCAL_PATH)
+
 LOCAL_CFLAGS                  := $(common_flags) -DLOG_TAG=\"qdutils\" -Wno-sign-conversion
 LOCAL_ADDITIONAL_DEPENDENCIES := $(common_deps)
-LOCAL_COPY_HEADERS_TO         := $(common_header_export_path)
-LOCAL_COPY_HEADERS            := display_config.h
 LOCAL_SRC_FILES               := qd_utils.cpp \
                                  display_config.cpp
 include $(BUILD_SHARED_LIBRARY)
 
 include $(CLEAR_VARS)
 
-LOCAL_COPY_HEADERS_TO           := $(common_header_export_path)
-LOCAL_COPY_HEADERS              := qdMetaData.h
-LOCAL_SHARED_LIBRARIES          := liblog libcutils
-LOCAL_C_INCLUDES                := $(common_includes)
-LOCAL_HEADER_LIBRARIES          := display_headers
-LOCAL_HEADER_LIBRARIES          += libhardware_headers
-LOCAL_HEADER_LIBRARIES          += libutils_headers
-LOCAL_ADDITIONAL_DEPENDENCIES   := $(common_deps)
-LOCAL_SRC_FILES                 := qdMetaData.cpp qd_utils.cpp
-LOCAL_CFLAGS                    := $(common_flags) -Wno-sign-conversion
-LOCAL_CFLAGS                    += -DLOG_TAG=\"DisplayMetaData\"
-
-LOCAL_MODULE_TAGS               := optional
 LOCAL_MODULE                    := libqdMetaData
 LOCAL_VENDOR_MODULE             := true
-include $(BUILD_SHARED_LIBRARY)
-
-
-include $(CLEAR_VARS)
+LOCAL_MODULE_TAGS               := optional
 
 LOCAL_SHARED_LIBRARIES          := liblog libcutils
 LOCAL_C_INCLUDES                := $(common_includes)
@@ -57,7 +37,10 @@ LOCAL_SRC_FILES                 := qdMetaData.cpp qd_utils.cpp
 LOCAL_CFLAGS                    := $(common_flags) -Wno-sign-conversion
 LOCAL_CFLAGS                    += -DLOG_TAG=\"DisplayMetaData\"
 
-LOCAL_MODULE_TAGS               := optional
-LOCAL_MODULE                    := libqdMetaData.system
+LOCAL_EXPORT_C_INCLUDE_DIRS := \
+    $(LOCAL_PATH)
 
+LOCAL_CFLAGS                    := $(common_flags) -Wno-sign-conversion
+LOCAL_CFLAGS                    += -DLOG_TAG=\"DisplayMetaData\"
+LOCAL_SRC_FILES                 := qdMetaData.cpp qd_utils.cpp
 include $(BUILD_SHARED_LIBRARY)
