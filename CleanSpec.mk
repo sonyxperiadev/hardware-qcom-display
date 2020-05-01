@@ -43,8 +43,8 @@ $(call add-clean-step, rm -rf $(PRODUCT_OUT)/vendor/lib/hw/lights.talos.so)
 $(call add-clean-step, rm -rf $(PRODUCT_OUT)/vendor/lib64/hw/memtrack.talos.so)
 $(call add-clean-step, rm -rf $(PRODUCT_OUT)/vendor/lib/hw/memtrack.talos.so)
 
-#Clean display includes
-$(call add-clean-step, rm -rf $(PRODUCT_OUT)/obj/include/qcom/display)
+# Clean display includes
+$(call add-clean-step, rm -rf $(TARGET_OUT_HEADERS)/qcom/display)
 
 # Clean old allocator rc file
 $(call add-clean-step, rm -rf $(PRODUCT_OUT)/vendor/etc/init/vendor.qti.hardware.display.allocator@1.0-service.rc)
