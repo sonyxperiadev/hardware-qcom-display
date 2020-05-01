@@ -50,7 +50,6 @@ LOCAL_SRC_FILES               := hwc_session.cpp \
 
 ifeq ($(TARGET_USES_GRALLOC1), true)
 LOCAL_SRC_FILES               += hwc_buffer_allocator1.cpp
-LOCAL_CFLAGS += -DUSE_GRALLOC1
 else
 LOCAL_SRC_FILES               += hwc_buffer_allocator.cpp
 endif
@@ -60,4 +59,4 @@ ifeq ($(TARGET_HAS_WIDE_COLOR_DISPLAY), true)
 endif
 
 include $(BUILD_SHARED_LIBRARY)
-endif
+endif # use_hwc2
