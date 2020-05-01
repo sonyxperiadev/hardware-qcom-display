@@ -16,7 +16,6 @@ LOCAL_EXPORT_C_INCLUDE_DIRS := \
     $(LOCAL_PATH)
 
 LOCAL_CFLAGS                  := $(common_flags) -DLOG_TAG=\"qdutils\" -Wno-sign-conversion
-LOCAL_ADDITIONAL_DEPENDENCIES := $(common_deps)
 LOCAL_SRC_FILES               := qd_utils.cpp \
                                  display_config.cpp
 include $(BUILD_SHARED_LIBRARY)
@@ -32,7 +31,6 @@ LOCAL_C_INCLUDES                := $(common_includes)
 LOCAL_HEADER_LIBRARIES          := display_headers
 LOCAL_HEADER_LIBRARIES          += libhardware_headers
 LOCAL_HEADER_LIBRARIES          += libutils_headers
-LOCAL_ADDITIONAL_DEPENDENCIES   := $(common_deps)
 LOCAL_SRC_FILES                 := qdMetaData.cpp qd_utils.cpp
 LOCAL_CFLAGS                    := $(common_flags) -Wno-sign-conversion
 LOCAL_CFLAGS                    += -DLOG_TAG=\"DisplayMetaData\"
