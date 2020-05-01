@@ -14,6 +14,7 @@ ifeq ($(TARGET_USES_GRALLOC1), true)
 common_flags += -DUSE_GRALLOC1
 endif
 
+# No device sets this
 ifeq ($(TARGET_IS_HEADLESS), true)
     common_flags += -DTARGET_HEADLESS
     LOCAL_CLANG := false
@@ -26,14 +27,18 @@ ifeq ($(display_config_version), DISPLAY_CONFIG_1_2)
     common_flags += -DDISPLAY_CONFIG_1_2 -DDISPLAY_CONFIG_1_1
 endif
 
+# Unused
 ifeq ($(TARGET_USES_COLOR_METADATA), true)
     common_flags += -DUSE_COLOR_METADATA
 endif
 
+# No device sets this
+# hwc_display.cpp is the only user
 ifeq ($(TARGET_USES_QCOM_BSP),true)
     common_flags += -DQTI_BSP
 endif
 
+# No device sets this
 ifeq ($(ARCH_ARM_HAVE_NEON),true)
     common_flags += -D__ARM_HAVE_NEON
 endif
@@ -42,6 +47,7 @@ ifeq ($(call is-board-platform-in-list, $(MASTER_SIDE_CP_TARGET_LIST)), true)
     common_flags += -DMASTER_SIDE_CP
 endif
 
+# All SODP devices set TARGET_USES_HWC2=true
 use_hwc2 := false
 ifeq ($(TARGET_USES_HWC2), true)
     use_hwc2 := true
