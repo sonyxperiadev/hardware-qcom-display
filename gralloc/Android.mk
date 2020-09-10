@@ -7,7 +7,7 @@ LOCAL_MODULE                  := gralloc.$(TARGET_BOARD_PLATFORM)
 LOCAL_VENDOR_MODULE           := true
 LOCAL_MODULE_RELATIVE_PATH    := hw
 LOCAL_MODULE_TAGS             := optional
-LOCAL_C_INCLUDES              := $(common_includes) $(kernel_includes)
+LOCAL_C_INCLUDES              := $(kernel_includes)
 
 LOCAL_HEADER_LIBRARIES        := display_headers
 LOCAL_SHARED_LIBRARIES        := $(common_libs) libqdMetaData libsync libgrallocutils \
@@ -26,7 +26,7 @@ include $(CLEAR_VARS)
 LOCAL_MODULE                  := libgrallocutils
 LOCAL_VENDOR_MODULE           := true
 LOCAL_MODULE_TAGS             := optional
-LOCAL_C_INCLUDES              := $(common_includes) $(kernel_includes)
+LOCAL_C_INCLUDES              := $(kernel_includes)
 LOCAL_HEADER_LIBRARIES        := display_headers
 LOCAL_SHARED_LIBRARIES        := $(common_libs) libqdMetaData libdl  \
                                   android.hardware.graphics.mapper@2.0 \
@@ -42,8 +42,7 @@ include $(CLEAR_VARS)
 LOCAL_MODULE                  := libgralloccore
 LOCAL_VENDOR_MODULE           := true
 LOCAL_MODULE_TAGS             := optional
-LOCAL_C_INCLUDES              := $(common_includes) \
-                                 system/core/libion/include \
+LOCAL_C_INCLUDES              := system/core/libion/include \
                                  system/core/libion/kernel-headers \
                                  $(kernel_includes)
 
@@ -62,7 +61,7 @@ LOCAL_MODULE                  := android.hardware.graphics.mapper@3.0-impl-qti-d
 LOCAL_VENDOR_MODULE           := true
 LOCAL_MODULE_RELATIVE_PATH    := hw
 LOCAL_MODULE_TAGS             := optional
-LOCAL_C_INCLUDES              := $(common_includes) $(kernel_includes)
+LOCAL_C_INCLUDES              := $(kernel_includes)
 LOCAL_HEADER_LIBRARIES        := display_headers
 LOCAL_SHARED_LIBRARIES        := $(common_libs) \
                                   libhidlbase \
@@ -101,7 +100,7 @@ LOCAL_SHARED_LIBRARIES        := $(common_libs) \
                                  android.hardware.graphics.allocator@3.0
 LOCAL_CFLAGS                  := -DLOG_TAG=\"qdgralloc\" $(common_flags)
 LOCAL_ADDITIONAL_DEPENDENCIES := $(common_deps)
-LOCAL_C_INCLUDES              := $(common_includes) $(kernel_includes)
+LOCAL_C_INCLUDES              := $(kernel_includes)
 LOCAL_SRC_FILES               := QtiAllocator.cpp service.cpp
 LOCAL_INIT_RC                 := vendor.qti.hardware.display.allocator-service.rc
 include $(BUILD_EXECUTABLE)
