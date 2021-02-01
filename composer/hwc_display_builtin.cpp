@@ -436,28 +436,10 @@ void HWCDisplayBuiltIn::SetBwLimitHint(bool enable) {
   }
 }
 
-void HWCDisplayBuiltIn::SetPartialUpdate(DisplayConfigFixedInfo fixed_info) {
-  partial_update_enabled_ = fixed_info.partial_update || (!fixed_info.is_cmdmode);
-  for (auto hwc_layer : layer_set_) {
-    hwc_layer->SetPartialUpdate(partial_update_enabled_);
-  }
-  client_target_->SetPartialUpdate(partial_update_enabled_);
-}
-
 HWC2::Error HWCDisplayBuiltIn::SetPowerMode(HWC2::PowerMode mode, bool teardown) {
-  DisplayConfigFixedInfo fixed_info = {};
-  display_intf_->GetConfig(&fixed_info);
-  bool command_mode = fixed_info.is_cmdmode;
-
   auto status = HWCDisplay::SetPowerMode(mode, teardown);
   if (status != HWC2::Error::None) {
     return status;
-  }
-
-  display_intf_->GetConfig(&fixed_info);
-  is_cmd_mode_ = fixed_info.is_cmdmode;
-  if (is_cmd_mode_ != command_mode) {
-    SetPartialUpdate(fixed_info);
   }
 
   if (mode == HWC2::PowerMode::Off) {
@@ -480,9 +462,6 @@ HWC2::Error HWCDisplayBuiltIn::Present(shared_ptr<Fence> *out_retire_fence) {
     }
   } else {
     CacheAvrStatus();
-    DisplayConfigFixedInfo fixed_info = {};
-    display_intf_->GetConfig(&fixed_info);
-    bool command_mode = fixed_info.is_cmdmode;
 
     status = CommitStitchLayers();
     if (status != HWC2::Error::None) {
@@ -496,11 +475,6 @@ HWC2::Error HWCDisplayBuiltIn::Present(shared_ptr<Fence> *out_retire_fence) {
       PostCommitStitchLayers();
       status = HWCDisplay::PostCommitLayerStack(out_retire_fence);
       SetBwLimitHint(true);
-      display_intf_->GetConfig(&fixed_info);
-      is_cmd_mode_ = fixed_info.is_cmdmode;
-      if (is_cmd_mode_ != command_mode) {
-        SetPartialUpdate(fixed_info);
-      }
 
       // For video mode panel with dynamic fps, update the active mode index.
       // This is needed to report the correct Vsync period when client queries
