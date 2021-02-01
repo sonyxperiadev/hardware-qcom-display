@@ -159,7 +159,6 @@ class DisplayBuiltIn : public DisplayBase, HWEventHandler, DppsPropIntf {
   bool CanDeferFpsConfig(uint32_t fps);
   void SetDeferredFpsConfig();
   void GetFpsConfig(HWDisplayAttributes *display_attributes, HWPanelInfo *panel_info);
-  void UpdateDisplayModeParams();
   bool CanLowerFps(bool idle_screen);
   void HandleQsyncPostCommit(LayerStack *layer_stack);
   void UpdateQsyncMode();
