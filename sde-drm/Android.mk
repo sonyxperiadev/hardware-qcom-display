@@ -9,9 +9,11 @@ LOCAL_SANITIZE            := integer_overflow
 LOCAL_MODULE_TAGS         := optional
 LOCAL_SHARED_LIBRARIES    := libdrm libdrmutils libdisplaydebug
 LOCAL_HEADER_LIBRARIES    := display_headers
-LOCAL_C_INCLUDES          := $(TARGET_OUT_INTERMEDIATES)/KERNEL_OBJ/usr/include/ \
-                             -isystem external/libdrm
+LOCAL_C_INCLUDES          := -isystem external/libdrm
+ifeq ($(TARGET_COMPILE_WITH_MSM_KERNEL),true)
+LOCAL_C_INCLUDES              += $(TARGET_OUT_INTERMEDIATES)/KERNEL_OBJ/usr/include
 LOCAL_ADDITIONAL_DEPENDENCIES := $(TARGET_OUT_INTERMEDIATES)/KERNEL_OBJ/usr
+endif
 LOCAL_CFLAGS              := -Wno-missing-field-initializers -Wall -Werror -fno-operator-names \
                              -Wno-unused-parameter -DLOG_TAG=\"SDE_DRM\"
 LOCAL_CLANG               := true

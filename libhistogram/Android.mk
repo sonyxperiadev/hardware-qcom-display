@@ -20,9 +20,11 @@ LOCAL_VENDOR_MODULE := true
 LOCAL_MODULE_TAGS := optional
 LOCAL_HEADER_LIBRARIES := display_headers
 LOCAL_SHARED_LIBRARIES := libdrm liblog libcutils libutils libbase
-LOCAL_C_INCLUDES          := $(TARGET_OUT_INTERMEDIATES)/KERNEL_OBJ/usr/include/ \
-                             -isystem external/libdrm
+LOCAL_C_INCLUDES              := -isystem external/libdrm
+ifeq ($(TARGET_COMPILE_WITH_MSM_KERNEL),true)
+LOCAL_C_INCLUDES              += $(TARGET_OUT_INTERMEDIATES)/KERNEL_OBJ/usr/include
 LOCAL_ADDITIONAL_DEPENDENCIES := $(TARGET_OUT_INTERMEDIATES)/KERNEL_OBJ/usr
+endif
 LOCAL_CFLAGS := -DLOG_TAG=\"SDM-histogram\" -Wall -std=c++14 -Werror -fno-operator-names \
 	-Wthread-safety
 LOCAL_CLANG  := true
@@ -37,9 +39,11 @@ LOCAL_HEADER_LIBRARIES := display_headers
 LOCAL_MODULE := color_sampling_tool
 LOCAL_SRC_FILES := color_sampling_tool.cpp
 LOCAL_SHARED_LIBRARIES := libhistogram libdrm liblog libcutils libutils libbase
-LOCAL_C_INCLUDES          := $(TARGET_OUT_INTERMEDIATES)/KERNEL_OBJ/usr/include/ \
-                             -isystem external/libdrm
+LOCAL_C_INCLUDES              := -isystem external/libdrm
+ifeq ($(TARGET_COMPILE_WITH_MSM_KERNEL),true)
+LOCAL_C_INCLUDES              += $(TARGET_OUT_INTERMEDIATES)/KERNEL_OBJ/usr/include
 LOCAL_ADDITIONAL_DEPENDENCIES := $(TARGET_OUT_INTERMEDIATES)/KERNEL_OBJ/usr
+endif
 LOCAL_CFLAGS := -DLOG_TAG=\"SDM-histogram\" -Wall -std=c++14 -Werror -fno-operator-names \
 	-Wthread-safety
 LOCAL_CLANG  := true
@@ -55,9 +59,11 @@ LOCAL_MODULE := color_sampling_test
 LOCAL_SRC_FILES := ringbuffer_test.cpp
 LOCAL_STATIC_LIBRARIES := libgtest libgmock
 LOCAL_SHARED_LIBRARIES := libhistogram libdrm liblog libcutils libutils libbase
-LOCAL_C_INCLUDES          := $(TARGET_OUT_INTERMEDIATES)/KERNEL_OBJ/usr/include/ \
-                             -isystem external/libdrm
+LOCAL_C_INCLUDES              := -isystem external/libdrm
+ifeq ($(TARGET_COMPILE_WITH_MSM_KERNEL),true)
+LOCAL_C_INCLUDES              += $(TARGET_OUT_INTERMEDIATES)/KERNEL_OBJ/usr/include
 LOCAL_ADDITIONAL_DEPENDENCIES := $(TARGET_OUT_INTERMEDIATES)/KERNEL_OBJ/usr
+endif
 LOCAL_CFLAGS := -DLOG_TAG=\"SDM-histogram\" -Wall -std=c++14 -Werror -fno-operator-names \
 	-Wthread-safety
 LOCAL_CLANG  := true
