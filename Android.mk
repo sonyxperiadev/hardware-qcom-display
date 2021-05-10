@@ -1,4 +1,4 @@
-ifneq ($(TARGET_DISABLE_DISPLAY),true)
+ifneq ($(filter 4.14, $(SOMC_KERNEL_VERSION)),)
 
 display-hals := \
     include\
