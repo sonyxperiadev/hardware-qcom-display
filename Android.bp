@@ -1,3 +1,7 @@
+soong_namespace {
+    imports: ["vendor/qcom/opensource/display-commonsys-intf/sm8150"],
+}
+
 cc_defaults {
     name: "display_defaults",
     cflags: [
