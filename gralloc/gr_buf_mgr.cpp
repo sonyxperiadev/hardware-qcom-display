@@ -18,7 +18,7 @@
  */
 /*
  * Changes from Qualcomm Innovation Center are provided under the following license:
- * Copyright (c) 2022-2023 Qualcomm Innovation Center, Inc. All rights reserved.
+ * Copyright (c) 2022-2024 Qualcomm Innovation Center, Inc. All rights reserved.
  * SPDX-License-Identifier: BSD-3-Clause-Clear
 */
 
@@ -43,7 +43,6 @@
 #include "gr_utils.h"
 #include "qd_utils.h"
 #include "color_extensions.h"
-#include "gr_ubwcp_utils.h"
 
 static bool enable_logs = false;
 
@@ -420,10 +419,6 @@ Error BufferManager::MapBuffer(private_handle_t const *handle) {
   ALOGD_IF(enable_logs, "Map buffer handle:%p id: %" PRIu64, hnd, hnd->id);
 
   hnd->base = 0;
-  UbwcpUtils::GetInstance()->ConfigUBWCPAttributes(handle);
-
-  if (hnd->ubwcp_format)
-    size = hnd->linear_size;
 
   if (allocator_->MapBuffer(reinterpret_cast<void **>(&hnd->base), size, hnd->offset, hnd->fd) !=
       0) {
