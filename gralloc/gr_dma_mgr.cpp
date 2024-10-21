@@ -27,7 +27,7 @@
  * IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  * Changes from Qualcomm Innovation Center are provided under the following license:
- * Copyright (c) 2022-2023 Qualcomm Innovation Center, Inc. All rights reserved.
+ * Copyright (c) 2022-2024 Qualcomm Innovation Center, Inc. All rights reserved.
  * SPDX-License-Identifier: BSD-3-Clause-Clear
  */
 
@@ -95,10 +95,8 @@ void DmaManager::InitMemUtils() {
   auto heap_list = buffer_allocator_.GetDmabufHeapList();
 
   movable_heap_system_available_ = heap_list.find("system-movable") != heap_list.end();
-  movable_heap_ubwcp_available_ = heap_list.find("ubwcp-movable") != heap_list.end();
 
   ALOGI("system movable heap is %d ", movable_heap_system_available_);
-  ALOGI("ubwcp movable heap is %d ", movable_heap_ubwcp_available_);
 }
 
 void DmaManager::DeinitMemUtils() {
@@ -349,11 +347,6 @@ void DmaManager::GetHeapInfo(uint64_t usage, bool sensor_flag, int format,
       ALOGI("gralloc::sns_direct_data with adsp_heap");
       heap_name = "qcom,adsp";
     }
-  }
-
-  if (IsUBwcPEnabled(format, usage)) {
-    heap_name = "qcom,ubwcp";
-    ALOGI("UBWCP enabled:%d heap_name:%s", IsUBwcPEnabled(format, usage), heap_name.c_str());
   }
 
   *alloc_type = type;

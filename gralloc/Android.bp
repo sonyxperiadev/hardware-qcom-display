@@ -4,7 +4,6 @@ cc_library_shared {
     defaults: [
         "qtidisplay_defaults_headless",
         "qtidisplay_common_defaults",
-        "qtidisplay_libubwcp_header_defaults"
     ],
     vendor: true,
     sanitize: {
@@ -44,7 +43,6 @@ cc_library_shared {
         "gr_utils.cpp",
         "gr_adreno_info.cpp",
         "gr_camera_info.cpp",
-        "gr_ubwcp_utils.cpp",
         "gr_snap_helper.cpp",
         "gr_snap_debugger.cpp",
     ],
@@ -100,7 +98,6 @@ cc_library_shared {
     defaults: [
         "qtidisplay_common_defaults",
         "qtidisplay_smmu_header_defaults",
-        "qtidisplay_libubwcp_header_defaults"
     ],
     sanitize: {
         integer_overflow: true,

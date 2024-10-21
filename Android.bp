@@ -96,17 +96,6 @@ qtidisplay_cc_defaults {
 }
 
 qtidisplay_cc_defaults {
-    name: "qtidisplay_libubwcp_header_defaults",
-    soong_config_variables: {
-        ubwcp_headers: {
-            header_libs: [
-                "libubwcp_headers",
-            ]
-        }
-    }
-}
-
-qtidisplay_cc_defaults {
     name: "qtidisplay_common_defaults",
     cflags: [
         "-Wno-missing-field-initializers",
