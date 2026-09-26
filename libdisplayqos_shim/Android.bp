@@ -1,0 +1,18 @@
+cc_library_shared {
+    name: "libdisplayqos_shim",
+    vendor: true,
+
+    cflags: [
+        "-Wall",
+        "-Wextra",
+        "-fvisibility=hidden",
+    ],
+
+    shared_libs: [
+        "libdisplaydebug",
+    ],
+
+    srcs: [
+        "libdisplayqos_shim.cpp",
+    ],
+}

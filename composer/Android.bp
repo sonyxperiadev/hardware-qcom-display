@@ -100,8 +100,6 @@ cc_binary {
     ],
 
     srcs: composer_srcs,
-
-    init_rc: ["vendor.qti.hardware.display.composer-service.rc"],
 }
 
 
@@ -159,11 +157,15 @@ soong_config_module_type {
     variables: [
         "composer_version",
     ],
+    bool_variables: [
+        "displayqos_shim",
+    ],
     properties: [
          "srcs",
          "cflags",
          "shared_libs",
          "vintf_fragments",
+         "init_rc",
     ],
 }
 
@@ -193,6 +195,13 @@ qticomposer3_cc_defaults {
                      "vendor.qti.hardware.display.composer3-V2-ndk",
                 ],
                 vintf_fragments: ["vendor.qti.hardware.display.composer-service3_v2.xml"],
+            },
+        },
+        displayqos_shim: {
+            shared_libs: ["libdisplayqos_shim"],
+            init_rc: ["vendor.qti.hardware.display.composer-service-shimmed.rc"],
+            conditions_default: {
+                init_rc: ["vendor.qti.hardware.display.composer-service.rc"],
             },
         },
     },
