@@ -349,4 +349,5 @@ subdirs = [
     "qmaa",
     "oem_services",
     "hwfence_client",
+    "libdisplayqos_shim",
 ]
