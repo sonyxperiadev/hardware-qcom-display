@@ -62,7 +62,6 @@ cc_defaults {
         "libbinder_ndk",
         "android.hardware.common-V2-ndk",
         "vendor.qti.hardware.display.config-V12-ndk",
-        "vendor.qti.hardware.display.composer3-V1-ndk",
         "vendor.qti.hardware.display.demura-V1-ndk",
         "libgrallocutils",
         "libtinyxml2",
@@ -182,6 +181,7 @@ qticomposer3_cc_defaults {
                 shared_libs: [
                       "android.hardware.graphics.composer3-V3-ndk",
                       "vendor.qti.hardware.display.aiqe-V2-ndk",
+                      "vendor.qti.hardware.display.composer3-V3-ndk",
                 ],
                 vintf_fragments: ["vendor.qti.hardware.display.composer-service3_v3.xml"],
             },
@@ -189,6 +189,7 @@ qticomposer3_cc_defaults {
                 cflags: ["-DCOMPOSER3_V2"],
                 shared_libs: [
                      "android.hardware.graphics.composer3-V2-ndk",
+                     "vendor.qti.hardware.display.composer3-V2-ndk",
                 ],
                 vintf_fragments: ["vendor.qti.hardware.display.composer-service3_v2.xml"],
             },
