@@ -1,6 +1,6 @@
 soong_namespace {
     imports: [
-        "hardware/qcom/display",
+        "vendor/qcom/opensource/display/sm8750",
     ],
 }
 composer_srcs = ["*.cpp"]
