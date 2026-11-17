@@ -38,6 +38,8 @@ cc_library_shared {
         "-Wno-sign-conversion",
         "-Wno-unused-parameter",
         "-Wno-unused-variable",
+        "-Wno-format",
+        "-Wno-implicit-fallthrough",
     ],
     srcs: [
         "gr_utils.cpp",
@@ -86,6 +88,7 @@ cc_library_shared {
         "-Wno-sign-conversion",
         "-Wno-unused-parameter",
         "-Wno-unused-variable",
+        "-Wno-format",
     ],
     srcs: [
         "mapper_utils.cpp",
@@ -132,6 +135,8 @@ cc_library_shared {
         "-D__QTI_DISPLAY_GRALLOC__",
         "-Wno-sign-conversion",
         "-Wno-unused-parameter",
+        "-Wno-implicit-fallthrough",
+        "-Wno-format",
     ],
     srcs: [
         "gr_allocator.cpp",
@@ -212,6 +217,7 @@ cc_library_shared {
         "-DLOG_TAG=\"qdgralloc\"",
         "-D__QTI_DISPLAY_GRALLOC__",
         "-Wno-sign-conversion",
+        "-Wno-format",
     ],
     srcs: [
         "QtiMapper4.cpp",
@@ -280,6 +286,7 @@ cc_library_shared {
         "-DLOG_TAG=\"qdgralloc\"",
         "-D__QTI_DISPLAY_GRALLOC__",
         "-Wno-sign-conversion",
+        "-Wno-format",
     ],
     srcs: [
         "QtiMapper5.cpp",
@@ -333,6 +340,7 @@ cc_binary {
     cflags: [
         "-DLOG_TAG=\"qdgralloc\"",
         "-D__QTI_DISPLAY_GRALLOC__",
+        "-Wno-format",
     ],
     srcs: [
         "QtiAllocatorAIDL.cpp",
