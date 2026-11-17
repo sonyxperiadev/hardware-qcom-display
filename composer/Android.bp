@@ -96,6 +96,7 @@ cc_binary {
         "-Wno-unused-parameter",
         "-Wdeprecated-declarations",
         "-DLOG_TAG=\"SDM\"",
+        "-Wno-format",
     ],
 
     srcs: composer_srcs,
